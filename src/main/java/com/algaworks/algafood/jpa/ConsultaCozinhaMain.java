@@ -15,6 +15,6 @@ public class ConsultaCozinhaMain {
 
         CozinhaRepository cozinhas = context.getBean(CozinhaRepository.class);
 
-        cozinhas.todas().forEach(c -> System.out.println(c.getNome()));
+        cozinhas.listar().forEach(c -> System.out.println(c.getNome()));
     }
 }

@@ -20,6 +20,6 @@ public class AlteracaoCozinhaMain {
         cozinha.setId(1L);
         cozinha.setNome("Chinesa");
 
-        cozinhas.adicionar(cozinha);
+        cozinhas.salvar(cozinha);
     }
 }

@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface CozinhaRepository {
 
-    public List<Cozinha> todas();
-    public Cozinha porId(Long id);
-    public Cozinha adicionar(Cozinha cozinha);
+    public List<Cozinha> listar();
+    public Cozinha buscarPorId(Long id);
+    public Cozinha salvar(Cozinha cozinha);
     public void remover(Cozinha cozinha);
 }
