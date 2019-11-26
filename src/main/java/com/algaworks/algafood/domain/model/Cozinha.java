@@ -19,6 +19,6 @@ public class Cozinha {
     @Column(name = "id")
     private Long id;
     @NotBlank(message = "Favor preencher o campo nome!")
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     private String nome;
 }
