@@ -6,7 +6,7 @@ CREATE TABLE cozinha(
 CREATE TABLE restaurante(
     id BIGINT(19) PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(120) NOT NULL,
-    taxa_frete DECIMAL(19,5) DEFAULT 0
+    taxa_frete DECIMAL(19,5) NOT NULL DEFAULT 0
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO cozinha(nome) VALUES('Tailandesa');
