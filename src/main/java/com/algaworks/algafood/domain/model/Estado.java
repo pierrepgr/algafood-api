@@ -8,19 +8,16 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
-@Table(name = "permissao")
+@Table(name = "estado")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Permissao {
+public class Estado {
 
     @Id
     @EqualsAndHashCode.Include
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @NotBlank(message = "Favor preencher o campo nome!")
     @Column(name = "nome", nullable = false)
     private String nome;
-    @NotBlank(message = "Favor preencher o campo descricao!")
-    @Column(name = "descricao", nullable = false)
-    private String descricao;
 }
