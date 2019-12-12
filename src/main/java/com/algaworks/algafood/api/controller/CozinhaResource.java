@@ -33,6 +33,11 @@ public class CozinhaResource {
 
     @GetMapping("/{id}")
     public ResponseEntity<Cozinha> buscarPorId(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.cozinhaRepository.buscarPorId(id));
+        Cozinha cozinha = this.cozinhaRepository.buscarPorId(id);
+
+        if (cozinha != null)
+            return ResponseEntity.ok(cozinha);
+
+        return ResponseEntity.notFound().build();
     }
 }
