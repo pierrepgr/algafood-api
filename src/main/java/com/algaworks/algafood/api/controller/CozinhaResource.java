@@ -56,4 +56,10 @@ public class CozinhaResource {
 
         return ResponseEntity.notFound().build();
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable("id") Long id) {
+        this.cozinhaRepository.remover(new Cozinha(id));
+    }
 }

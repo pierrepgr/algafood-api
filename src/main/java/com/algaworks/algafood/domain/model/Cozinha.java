@@ -1,7 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,11 +8,14 @@ import java.util.Objects;
 
 @Data
 @Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "cozinha")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Cozinha {
 
     @Id
+    @NonNull
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
