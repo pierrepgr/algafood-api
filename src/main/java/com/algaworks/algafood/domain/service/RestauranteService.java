@@ -18,12 +18,14 @@ public class RestauranteService {
     private RestauranteRepository restauranteRepository;
 
     public Restaurante salvar(Restaurante restaurante) {
-        Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = this.cozinhaRepository.buscarPorId(cozinhaId);
 
-        if (cozinha == null)
-            throw new EntidadeNaoEncontradaException(String.format("Não existe uma cozinha cadastrada com o código %d", cozinhaId));
+        if (restaurante.getCozinha() != null) {
+            Long cozinhaId = restaurante.getCozinha().getId();
+            Cozinha cozinha = this.cozinhaRepository.buscarPorId(cozinhaId);
 
+            if (cozinha == null)
+                throw new EntidadeNaoEncontradaException(String.format("Não existe uma cozinha cadastrada com o código %d", cozinhaId));
+        }
         return this.restauranteRepository.salvar(restaurante);
     }
 }
