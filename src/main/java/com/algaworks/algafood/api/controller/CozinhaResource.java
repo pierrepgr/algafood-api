@@ -30,11 +30,6 @@ public class CozinhaResource {
         return this.cozinhaRepository.listar();
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<CozinhasXmlWrapper> listarXml() {
-        return ResponseEntity.ok(new CozinhasXmlWrapper(this.cozinhaRepository.listar()));
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Cozinha> buscarPorId(@PathVariable("id") Long id) {
         Cozinha cozinha = this.cozinhaRepository.buscarPorId(id);
@@ -56,7 +51,7 @@ public class CozinhaResource {
 
         if (cozinhaSalva != null) {
             BeanUtils.copyProperties(cozinha, cozinhaSalva, "id");
-            return ResponseEntity.ok(this.cozinhaRepository.salvar(cozinhaSalva));
+            return ResponseEntity.ok(this.cozinhaService.salvar(cozinhaSalva));
         }
 
         return ResponseEntity.notFound().build();
