@@ -26,7 +26,7 @@ public class Restaurante {
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
     @NotNull(message = "Favor selecionar uma cozinha!")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 }
