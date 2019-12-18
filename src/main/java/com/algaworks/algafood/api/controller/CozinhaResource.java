@@ -1,8 +1,11 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.model.CozinhasXmlWrapper;
+import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.service.CozinhaService;
 import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ import java.util.List;
 @RequestMapping("/cozinhas")
 public class CozinhaResource {
 
+    @Autowired
+    private CozinhaService cozinhaService;
     @Autowired
     private CozinhaRepository cozinhaRepository;
 
@@ -42,7 +47,7 @@ public class CozinhaResource {
 
     @PostMapping
     public ResponseEntity<Cozinha> adicionar(@RequestBody Cozinha cozinha) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.cozinhaRepository.salvar(cozinha));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.cozinhaService.salvar(cozinha));
     }
 
     @PutMapping("/{id}")
@@ -60,6 +65,6 @@ public class CozinhaResource {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable("id") Long id) {
-        this.cozinhaRepository.remover(new Cozinha(id));
+        this.cozinhaService.excluir(id);
     }
 }
