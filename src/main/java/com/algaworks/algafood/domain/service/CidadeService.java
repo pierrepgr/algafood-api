@@ -16,12 +16,12 @@ public class CidadeService {
     private CidadeRepository cidadeRepository;
 
     public Cidade salvar(Cidade cidade) {
-        return this.cidadeRepository.salvar(cidade);
+        return this.cidadeRepository.save(cidade);
     }
 
     public void excluir(Long id) {
         try {
-            this.cidadeRepository.remover(id);
+            this.cidadeRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(String.format("Não existe nenhuma cidade com o código %d", id));
         } catch (DataIntegrityViolationException e) {

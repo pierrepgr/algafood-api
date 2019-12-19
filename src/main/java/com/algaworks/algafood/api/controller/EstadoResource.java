@@ -21,7 +21,7 @@ public class EstadoResource {
 
     @GetMapping
     public List<Estado> listar() {
-        return this.estadoRepository.listar();
+        return this.estadoRepository.findAll();
     }
 
     @PostMapping
@@ -32,7 +32,7 @@ public class EstadoResource {
     @PutMapping("/{id}")
     public ResponseEntity<Estado> atualizar(@PathVariable("id") Long id, Estado estado) {
         estado.setId(id);
-        return ResponseEntity.ok(this.estadoRepository.salvar(estado));
+        return ResponseEntity.ok(this.estadoService.salvar(estado));
     }
 
     @DeleteMapping("/{id}")

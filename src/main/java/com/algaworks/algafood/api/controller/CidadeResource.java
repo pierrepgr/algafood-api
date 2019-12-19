@@ -26,7 +26,7 @@ public class CidadeResource {
 
     @GetMapping
     public List<Cidade> listar() {
-        return this.cidadeRepository.listar();
+        return this.cidadeRepository.findAll();
     }
 
     @PostMapping

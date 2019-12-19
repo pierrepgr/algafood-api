@@ -26,6 +26,6 @@ public class RestauranteService {
             Cozinha cozinha = this.cozinhaRepository.findById(cozinhaId)
                     .orElseThrow(() ->  new EntidadeNaoEncontradaException(String.format("Não existe uma cozinha cadastrada com o código %d", cozinhaId)));
         }
-        return this.restauranteRepository.salvar(restaurante);
+        return this.restauranteRepository.save(restaurante);
     }
 }

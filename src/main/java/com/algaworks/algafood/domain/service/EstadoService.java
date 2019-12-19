@@ -16,12 +16,12 @@ public class EstadoService {
     private EstadoRepository estadoRepository;
 
     public Estado salvar(Estado estado) {
-        return this.estadoRepository.salvar(estado);
+        return this.estadoRepository.save(estado);
     }
 
     public void excluir(Long id) {
         try {
-            this.estadoRepository.remover(id);
+            this.estadoRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(String.format("Não existe nenhum estado com o código %d", id));
         } catch (DataIntegrityViolationException e) {
