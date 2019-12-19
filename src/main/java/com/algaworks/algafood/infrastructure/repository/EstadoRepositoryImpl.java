@@ -31,8 +31,8 @@ public class EstadoRepositoryImpl implements EstadoRepository {
     }
 
     @Override
-    public void remover(Estado estado) {
-        estado = this.buscarPorId(estado.getId());
+    public void remover(Long id) {
+        Estado estado = this.buscarPorId(id);
         this.manager.remove(estado);
     }
 }
