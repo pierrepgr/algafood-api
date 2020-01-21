@@ -54,7 +54,7 @@ public class RestauranteResource {
             if (restauranteSalvo.isEmpty())
                 throw new EntidadeNaoEncontradaException(String.format("Não existe nenhum restaurante com o código %d", id));
 
-            BeanUtils.copyProperties(restaurante, restauranteSalvo.get(), "id", "formasPagamentos");
+            BeanUtils.copyProperties(restaurante, restauranteSalvo.get(), "id", "formasPagamentos", "endereco");
             return ResponseEntity.ok(this.restauranteService.salvar(restaurante));
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
