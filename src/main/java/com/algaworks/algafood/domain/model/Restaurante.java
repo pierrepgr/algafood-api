@@ -32,6 +32,8 @@ public class Restaurante {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
+    @Embedded
+    private Endereco endereco;
     @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento", joinColumns = @JoinColumn(name = "restaurante_id"),
