@@ -48,29 +48,16 @@ public class RestauranteResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable("id") Long id, @RequestBody Restaurante restaurante) {
-        try {
-            Optional<Restaurante> restauranteSalvo = this.restauranteRepository.findById(id);
-
-            if (restauranteSalvo.isEmpty())
-                throw new EntidadeNaoEncontradaException(String.format("Não existe nenhum restaurante com o código %d", id));
-
-            BeanUtils.copyProperties(restaurante, restauranteSalvo.get(), "id", "formasPagamentos", "endereco", "dataCadastro");
-            return ResponseEntity.ok(this.restauranteService.salvar(restaurante));
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        Restaurante restauranteSalvo = this.buscarOuFalhar(id);
+        BeanUtils.copyProperties(restaurante, restauranteSalvo, "id", "formasPagamentos", "endereco", "dataCadastro");
+        return ResponseEntity.ok(this.restauranteService.salvar(restaurante));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> atualizarParcial(@PathVariable("id") Long id, @RequestBody Map<String, Object> campos) {
-        Optional<Restaurante> restauranteSalvo = this.restauranteRepository.findById(id);
-
-        if (restauranteSalvo.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        merge(campos, restauranteSalvo.get());
-
-        return atualizar(id, restauranteSalvo.get());
+        Restaurante restauranteSalvo = this.buscarOuFalhar(id);
+        merge(campos, restauranteSalvo);
+        return atualizar(id, restauranteSalvo);
     }
 
     private void merge(Map<String, Object> camposOrigem, Restaurante restaurante) {
@@ -85,5 +72,10 @@ public class RestauranteResource {
 
             ReflectionUtils.setField(field, restaurante, novoValor);
         });
+    }
+
+    private Restaurante buscarOuFalhar(Long id) {
+        return this.restauranteRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(String.format("Não foi possível encontrar um restaurando com id %d.", id)));
     }
 }
