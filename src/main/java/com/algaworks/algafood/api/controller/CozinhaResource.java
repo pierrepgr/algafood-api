@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
@@ -27,13 +28,8 @@ public class CozinhaResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cozinha> buscarPorId(@PathVariable("id") Long id) {
-        Optional<Cozinha> cozinha = this.cozinhaRepository.findById(id);
-
-        if (cozinha.isPresent())
-            return ResponseEntity.ok(cozinha.get());
-
-        return ResponseEntity.notFound().build();
+    public Cozinha buscarPorId(@PathVariable("id") Long id) {
+        return this.buscarOuFalhar(id);
     }
 
     @PostMapping
@@ -43,19 +39,19 @@ public class CozinhaResource {
 
     @PutMapping("/{id}")
     public ResponseEntity<Cozinha> atualizar(@PathVariable("id") Long cozinhaId, @RequestBody Cozinha cozinha) {
-        Optional<Cozinha> cozinhaSalva = this.cozinhaRepository.findById(cozinhaId);
-
-        if (cozinhaSalva.isPresent()) {
-            BeanUtils.copyProperties(cozinha, cozinhaSalva.get(), "id");
-            return ResponseEntity.ok(this.cozinhaService.salvar(cozinhaSalva.get()));
-        }
-
-        return ResponseEntity.notFound().build();
+        Cozinha cozinhaSalva = this.buscarOuFalhar(cozinhaId);
+        BeanUtils.copyProperties(cozinha, cozinhaSalva, "id");
+        return ResponseEntity.ok(this.cozinhaService.salvar(cozinhaSalva));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable("id") Long id) {
         this.cozinhaService.excluir(id);
+    }
+
+    private Cozinha buscarOuFalhar(Long id) {
+        return this.cozinhaRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("A cozinha não foi encontrada com o id " + id));
     }
 }
