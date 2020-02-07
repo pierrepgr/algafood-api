@@ -46,4 +46,5 @@ public class CidadeResource {
         this.cidadeService.excluir(id);
     }
 
+    public ResponseEntity<>
 }
