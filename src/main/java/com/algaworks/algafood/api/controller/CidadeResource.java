@@ -45,6 +45,4 @@ public class CidadeResource {
     public void excluir(@PathVariable("id") Long id) {
         this.cidadeService.excluir(id);
     }
-
-    public ResponseEntity<>
 }
