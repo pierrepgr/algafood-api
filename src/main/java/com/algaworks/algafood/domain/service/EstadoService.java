@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EstadoService {
@@ -22,6 +23,7 @@ public class EstadoService {
         return this.estadoRepository.save(estado);
     }
 
+    @Transactional
     public void excluir(Long id) {
         try {
             this.estadoRepository.deleteById(id);

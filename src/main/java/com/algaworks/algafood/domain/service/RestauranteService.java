@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class RestauranteService {
     @Autowired
     private RestauranteRepository restauranteRepository;
 
+    @Transactional
     public Restaurante salvar(Restaurante restaurante) {
 
         if (restaurante.getCozinha() != null) {
