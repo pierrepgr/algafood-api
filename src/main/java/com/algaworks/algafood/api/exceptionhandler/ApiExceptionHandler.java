@@ -22,29 +22,34 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             EntidadeNaoEncontradaException e, WebRequest request) {
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
         String details = e.getMessage();
-        TipoProblema tipo = TipoProblema.ENTIDADE_NAO_ENCONTRADA;
+        TipoProblema tipoProblema = TipoProblema.ENTIDADE_NAO_ENCONTRADA;
 
-        Problema problema = this.createProblemBuilder(httpStatus, tipo, details)
+        Problema problema = this.createProblemBuilder(httpStatus, tipoProblema, details)
                 .build();
-
-        /*Problema problema = Problema.builder()
-                    .status(httpStatus.value())
-                    .type("https://algafood.com.br/entidade-nao-encontrada")
-                    .title("Entidade não encontrada")
-                    .detail(details)
-                    .build();*/
 
         return this.handleExceptionInternal(e, problema, new HttpHeaders(), httpStatus, request);
     }
 
     @ExceptionHandler(EntidadeEmUsoException.class)
     public ResponseEntity<?> handleEntidadeEmUsoException(EntidadeEmUsoException e, WebRequest request) {
-        return this.handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        HttpStatus httpStatus = HttpStatus.CONFLICT;
+        String detail = e.getMessage();
+        TipoProblema tipoProblema = TipoProblema.ENTIDADE_EM_USO;
+
+        Problema problema = this.createProblemBuilder(httpStatus, tipoProblema, detail).build();
+
+        return this.handleExceptionInternal(e, problema, new HttpHeaders(), httpStatus, request);
     }
 
     @ExceptionHandler(NegocioException.class)
     public ResponseEntity<?> handleNegocioException(NegocioException e, WebRequest request) {
-        return this.handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        String detail = e.getMessage();
+        TipoProblema tipoProblema = TipoProblema.NEGOCIO;
+
+        Problema problema = this.createProblemBuilder(httpStatus, tipoProblema, detail).build();
+
+        return this.handleExceptionInternal(e, problema, new HttpHeaders(), httpStatus, request);
     }
 
     @Override
