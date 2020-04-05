@@ -18,18 +18,32 @@ import java.time.LocalDateTime;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<?> tratarEntidadeNaoEncontradaException(
+    public ResponseEntity<?> handleEntidadeNaoEncontradaException(
             EntidadeNaoEncontradaException e, WebRequest request) {
-        return this.handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        String details = e.getMessage();
+        TipoProblema tipo = TipoProblema.ENTIDADE_NAO_ENCONTRADA;
+
+        Problema problema = this.createProblemBuilder(httpStatus, tipo, details)
+                .build();
+
+        /*Problema problema = Problema.builder()
+                    .status(httpStatus.value())
+                    .type("https://algafood.com.br/entidade-nao-encontrada")
+                    .title("Entidade não encontrada")
+                    .detail(details)
+                    .build();*/
+
+        return this.handleExceptionInternal(e, problema, new HttpHeaders(), httpStatus, request);
     }
 
     @ExceptionHandler(EntidadeEmUsoException.class)
-    public ResponseEntity<?> tratarEntidadeEmUsoException(EntidadeEmUsoException e, WebRequest request) {
+    public ResponseEntity<?> handleEntidadeEmUsoException(EntidadeEmUsoException e, WebRequest request) {
         return this.handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<?> tratarNegocioException(NegocioException e, WebRequest request) {
+    public ResponseEntity<?> handleNegocioException(NegocioException e, WebRequest request) {
         return this.handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
@@ -38,14 +52,25 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         if (body == null) {
             body = Problema.builder()
-                    .dataHora(LocalDateTime.now())
-                    .mensagem(status.getReasonPhrase()).build();
+                    .title(status.getReasonPhrase())
+                    .status(status.value())
+                    .build();
         } else if (body instanceof String) {
             body = Problema.builder()
-                    .dataHora(LocalDateTime.now())
-                    .mensagem((String) body).build();
+                    .title((String) body)
+                    .status(status.value())
+                    .build();
         }
 
         return super.handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    private Problema.ProblemaBuilder createProblemBuilder(HttpStatus status, TipoProblema tipo, String detail) {
+
+        return Problema.builder()
+                .status(status.value())
+                .type(tipo.getUri())
+                .title(tipo.getTitle())
+                .detail(detail);
     }
 }

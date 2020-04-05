@@ -2,11 +2,11 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile default="$IN_PLACE$" name="Default" enabled="$IN_PLACE$" />
-      <profile name="Maven default annotation processors profile" enabled="$IN_PLACE$">
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="$IN_PLACE$" />
+        <outputRelativeToContentRoot value="true" />
         <module name="algafood-api" />
       </profile>
     </annotationProcessing>
